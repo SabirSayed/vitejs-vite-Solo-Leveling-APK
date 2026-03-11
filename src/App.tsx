@@ -474,7 +474,7 @@ export default function SoloLevelingGymSystem() {
 
           <TabsContent value="today" className="mt-4 space-y-4">
             <SectionCard title={`${todayPlan.fullDay}`} icon={Swords} subtitle={`${todayPlan.phase} ${todayPlan.split} protocol`}>
-              <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
+              <div className="mb-3 flex gap-2 overflow-x-auto pb-1 no-scrollbar snap-x">
                 {weeklyPlan.map((item) => (
                   <button
                     key={item.day}

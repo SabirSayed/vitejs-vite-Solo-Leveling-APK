@@ -85,21 +85,28 @@ const STORAGE_KEY = 'solo-training-system-v3';
 const defaultState = {
   playerName: 'Sabir',
   title: 'Shadow Monarch',
-  level: 27,
-  xp: 64,
-  streak: 12,
-  completed: { Mon: true, Tue: true, Wed: false, Thu: false, Fri: false, Sat: false },
+  level: 1,
+  xp: 0,
+  streak: 0,
+  completed: { Mon: false, Tue: false, Wed: false, Thu: false, Fri: false, Sat: false },
   selectedDay: 'Mon',
-  claimedTrophies: [1, 2],
-  liftStats: { bench: 95, squat: 135, deadlift: 170, overhead: 60, pullups: 17 },
+  claimedTrophies: [],
+  liftStats: { bench: 0, squat: 0, deadlift: 0, overhead: 0, pullups: 0 },
   activeTab: 'today',
   openedBefore: false,
+  weekKey: getWeekKey(),
 };
 
 function cn(...classes) {
   return classes.filter(Boolean).join(' ');
 }
-
+function getWeekKey() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 1);
+  const days = Math.floor((now.getTime() - start.getTime()) / 86400000);
+  const week = Math.ceil((days + start.getDay() + 1) / 7);
+  return `${now.getFullYear()}-W${week}`;
+}
 function getRank(level) {
   if (level >= 50) return 'S';
   if (level >= 42) return 'A';
@@ -122,10 +129,24 @@ function rankColors(rank) {
 
 function loadState() {
   if (typeof window === 'undefined') return defaultState;
+
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultState;
-    return { ...defaultState, ...JSON.parse(raw) };
+
+    const saved = { ...defaultState, ...JSON.parse(raw) };
+    const currentWeek = getWeekKey();
+
+    if (saved.weekKey !== currentWeek) {
+      return {
+        ...saved,
+        completed: { Mon: false, Tue: false, Wed: false, Thu: false, Fri: false, Sat: false },
+        selectedDay: 'Mon',
+        weekKey: currentWeek,
+      };
+    }
+
+    return saved;
   } catch {
     return defaultState;
   }
@@ -310,6 +331,7 @@ export default function SoloLevelingGymSystem() {
         liftStats,
         activeTab,
         openedBefore: true,
+        weekKey: getWeekKey(),
       })
     );
   }, [playerName, title, level, xp, streak, completed, selectedDay, claimedTrophies, liftStats, activeTab]);

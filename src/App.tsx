@@ -465,28 +465,12 @@ export default function SoloLevelingGymSystem() {
                       <p className="mt-3 text-[18px] font-black leading-none text-[#efe8ff]">{powerScore}</p>
                     </div>
                   </div>
-                  <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#170d22] solo-outline">
-                    <motion.div
-                      className="h-full rounded-full solo-meter"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${Math.max(18, Math.min(100, Math.round((powerScore / 3200) * 100)))}%` }}
-                      transition={{ duration: 0.8 }}
-                    />
-                  </div>
-                  <div className="mt-2 flex items-center justify-between text-[10px] text-white/38">
-                    <span>Power meter</span>
-                    <span>{Math.max(18, Math.min(100, Math.round((powerScore / 3200) * 100)))}%</span>
-                  </div>
+                  
                 </div>
                 <div className="col-span-4 rounded-[20px] border border-[#1d1228] bg-[#060309] p-3">
                   <p className="text-[9px] uppercase tracking-[0.24em] text-white/28">Lift Capacity</p>
                   <p className="mt-3 text-[28px] font-black leading-none text-[#efe8ff]">{totalLiftCapacity}</p>
-                  <div className="mt-3 grid grid-cols-2 gap-x-2 gap-y-1 text-[10px] text-white/40">
-                    <span>Bench {liftStats.bench}</span>
-                    <span>Squat {liftStats.squat}</span>
-                    <span>Dead {liftStats.deadlift}</span>
-                    <span>OHP {liftStats.overhead}</span>
-                  </div>
+                  
                 </div>
               </div>
 
